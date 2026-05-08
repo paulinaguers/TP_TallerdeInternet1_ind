@@ -25,6 +25,10 @@
     font-weight: bold;
 }
 
+body {
+    transition: background 0.4s, color 0.4s;
+}
+
 #contenedor-noticias {
     display: grid; 
     grid-template-columns: repeat(3, 1fr); 
@@ -38,4 +42,9 @@
     background-color: white;
     display: flex;
     flex-direction: column;
+}
+
+.noticia-card:hover { 
+    transform: scale(1.08);
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.4);
 }
