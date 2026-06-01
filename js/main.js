@@ -1,5 +1,5 @@
-// noticias hardcodeadas modificar posteriormente
-const noticias = [
+// noticias hardcodeadas (se mostrarán junto con las guardadas en localStorage)
+let noticias = [
     {
         titulo: "Un estudiante sin título universitario resuelve con ChatGPT un problema matemático que mantuvo en jaque a expertos durante 60 años",
         descripcion: "La IA encontró en 80 minutos un enfoque que ningún humano había probado. Los matemáticos admiten: 'Todos partimos de una premisa equivocada'.",
@@ -32,6 +32,19 @@ const noticias = [
     }
 
 ];
+
+// Si el admin guardó noticias en localStorage, usarlas. Si no, usar las hardcodeadas
+try {
+    const raw = localStorage.getItem('noticias');
+    if (raw) {
+        const stored = JSON.parse(raw);
+        if (Array.isArray(stored) && stored.length > 0) {
+            noticias = stored;
+        }
+    }
+} catch (e) {
+    console.log('No se pudieron cargar noticias desde localStorage:', e);
+}
 
 // noticias en el dom
 function mostrarNoticias(filtro = "") {

@@ -10,27 +10,46 @@
 
   <main class="contenedor">
 
-    <section id="login" class="tarjeta">
-      <h1>Login administrador</h1>
-      <p>Ingresá con tu usuario y contraseña.</p>
+    <section id="zonaLogin">
+      <section id="login" class="tarjeta">
+        <h1>Login administrador</h1>
+        <p>Ingresá con tu usuario y contraseña.</p>
+        <a href="index.html">Volver</a>
 
-      <form id="formulario-login">
-        <input type="text" id="usuario" placeholder="Usuario">
-        <input type="password" id="clave" placeholder="Contraseña">
-        <button type="submit">Ingresar</button>
-      </form>
+        <form id="formulario-login">
+          <input type="text" id="usuario" placeholder="Usuario">
+          <input type="password" id="password" placeholder="Contraseña">
+          <button type="button" id="btnLogin">Ingresar</button>
+        </form>
 
-      <p id="mensaje-error"></p>
+        <p id="mensaje-error"></p>
+        <p id="mensaje" class="mensaje-api"></p>
+      </section>
+    </section>
+
+    <section id="zonaBienvenida" class="tarjeta oculto">
+      <h1>Bienvenido</h1>
+      <div class="usuario-info">
+        <img id="foto" src="" alt="Foto de usuario" class="foto-usuario">
+        <p><strong>Nombre:</strong> <span id="nombre"></span></p>
+        <p><strong>Email:</strong> <span id="email"></span></p>
+      </div>
+      <button id="btnSalir">Cerrar sesión</button>
     </section>
 
     <section id="panel" class="tarjeta oculto">
       <h1>Panel de administrador</h1>
-      <p>Desde acá se puede modificar una noticia.</p>
+      <p>Desde acá podés agregar o eliminar noticias.</p>
 
-      <input type="text" id="nuevo-titulo" placeholder="Nuevo título de la noticia">
-      <textarea id="nuevo-texto" placeholder="Nuevo texto de la noticia"></textarea>
-
-      <button id="guardar">Guardar cambios</button>
+      <div class="form-agregar">
+        <input type="text" id="nuevo-titulo" placeholder="Título de la noticia">
+        <input type="text" id="nuevo-imagen" placeholder="URL de la imagen (opcional)">
+        <textarea id="nuevo-texto" placeholder="Texto/Descripción de la noticia"></textarea>
+        <div style="display:flex;gap:10px;">
+          <button id="guardar">Agregar noticia</button>
+          <button id="cancelar-edicion" style="display:none;">Cancelar</button>
+        </div>
+      </div>
 
       <div class="vista-previa">
         <h2>Vista previa</h2>
@@ -38,7 +57,16 @@
         <p id="texto-noticia">Texto de la noticia</p>
       </div>
 
-      <button id="salir">Cerrar sesión</button>
+      <div class="lista-noticias">
+        <h2>Noticias existentes</h2>
+        <div id="lista-noticias">
+        </div>
+      </div>
+
+      <div class="panel-acciones">
+        <button id="ver-main">Ver página principal</button>
+        <button id="salir">Cerrar sesión</button>
+      </div>
     </section>
 
   </main>
