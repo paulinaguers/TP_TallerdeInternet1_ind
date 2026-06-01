@@ -2,6 +2,7 @@
 const formulario = document.getElementById("form-dolar");
 const inputFecha = document.getElementById("fecha-dolar");
 const resultado = document.getElementById("contenedor-cotizaciones");
+const today = new Date();
 
 // FUNCIÓN PARA MOSTRAR COTIZACIÓN 
 function mostrarCotizacion(datos, titulo) {
