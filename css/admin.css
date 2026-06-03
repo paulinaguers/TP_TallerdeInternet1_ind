@@ -1,69 +1,97 @@
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: #111;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background-color: #0f0f11;
   color: white;
+  line-height: 1.5;
 }
 
 .contenedor {
   min-height: 100vh;
   display: flex;
   justify-content: center;
+  flex-direction: column;
   align-items: center;
+  padding: 2rem 1rem;
+  box-sizing: border-box;
+  gap: 20px;
 }
 
 .tarjeta {
-  width: 90%;
-  max-width: 500px;
-  background-color: #1f1f1f;
-  padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+  width: 100%;
+  max-width: 480px;
+  background-color: #111115;
+  padding: 45px 40px;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 0 50px rgba(59, 130, 246, 0.03);
+  border: 1px solid rgba(59, 130, 246, 0.15);
+  box-sizing: border-box;
 }
 
 .tarjeta h1 {
   margin-top: 0;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
 }
 
 .tarjeta p {
-  color: #cccccc;
+  color: #9ca3af;                  
+  font-size: 0.95rem;
+  margin-bottom: 28px;
 }
 
 input,
 textarea {
   width: 100%;
   box-sizing: border-box;
-  margin-top: 12px;
-  padding: 12px;
-  border: none;
-  border-radius: 8px;
+  margin-top: 14px;
+  padding: 14px 16px;
+  background-color: #222227;         
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
   font-size: 15px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.25s, box-shadow 0.25s, background-color 0.25s;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #4b5563;
 }
 
 textarea {
-  min-height: 100px;
-  resize: none;
+  min-height: 120px;
+  resize: vertical;
 }
 
 button {
   width: 100%;
-  margin-top: 15px;
-  padding: 12px;
-  background-color: #2f80ed;
+  margin-top: 24px;
+  padding: 15px;
+  background-color: #2f3f6c;
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
+  box-shadow: 0 4px 12px rgba(126, 153, 213, 0.2);
+  transition: transform 0.1s, box-shadow 0.2s;
 }
 
 button:hover {
-  background-color: #1c64c7;
+  background-color: #485a81;
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
 }
 
 #mensaje-error {
-  color: #ff6b6b;
-  margin-top: 15px;
+  color: #ef4444;
+  font-size: 0.9rem;
+  margin-top: 12px;
+  text-align: center;
 }
 
 .oculto {
@@ -71,16 +99,30 @@ button:hover {
 }
 
 .vista-previa {
-  margin-top: 25px;
-  padding: 15px;
-  background-color: #2b2b2b;
-  border-radius: 10px;
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #1c1c21;          
+  border-radius: 12px;
+  border-left: 4px solid #3b82f6;
+}
+
+.vista-previa h2 {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #3b82f6;
+  margin-top: 0;
+  margin-bottom: 12px;
 }
 
 #salir {
-  background-color: #555;
+  background: #27272a;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: none;
 }
 
 #salir:hover {
-  background-color: #444;
+  background: #ef4444;
+  
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.3);
 }
