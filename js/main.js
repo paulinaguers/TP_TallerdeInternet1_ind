@@ -33,6 +33,23 @@ let noticias = [
 
 ];
 
+const NEWS_KEY = "noticias";
+
+function inicializarNoticias() {
+    const raw = localStorage.getItem(NEWS_KEY);
+
+    if (!raw || raw === "[]") {
+        const noticiasConFecha = noticias.map(n => ({
+            ...n,
+            fecha: new Date().toISOString()
+        }));
+
+        localStorage.setItem(NEWS_KEY, JSON.stringify(noticiasConFecha));
+
+        console.log("Noticias inicializadas en main.js");
+    }
+}
+
 // Si el admin guardó noticias en localStorage, usarlas. Si no, usar las hardcodeadas
 try {
     const raw = localStorage.getItem('noticias');
@@ -91,6 +108,7 @@ document.getElementById('buscador').addEventListener('input', function(event) {
 
 // Ejecutar al cargar
 window.addEventListener('load', function() {
+    inicializarNoticias();
     mostrarNoticias();
     
     // Verificar si el usuario está logueado y actualizar el texto del menú
