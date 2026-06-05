@@ -92,4 +92,15 @@ document.getElementById('buscador').addEventListener('input', function(event) {
 // Ejecutar al cargar
 window.addEventListener('load', function() {
     mostrarNoticias();
+    
+    // Verificar si el usuario está logueado y actualizar el texto del menú
+    const tokenGuardado = sessionStorage.getItem("token");
+    const enlaceLogin = document.getElementById("enlace-login");
+    if (enlaceLogin) {
+        if (tokenGuardado) {
+            enlaceLogin.textContent = " 👩🏻‍💻Panel de admin";
+        } else {
+            enlaceLogin.textContent = " 👩🏻‍💻Loguearse";
+        }
+    }
 });

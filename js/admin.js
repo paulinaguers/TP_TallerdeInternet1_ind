@@ -63,19 +63,6 @@ const noticiasHardcodeadas = [
     }
 ];
 
-function escapeHtml(str) {
-  if (!str) return "";
-  return str.replace(/[&"'<>]/g, function (m) {
-    return ({
-      '&': '&amp;',
-      '"': '&quot;',
-      "'": '&#39;',
-      '<': '&lt;',
-      '>': '&gt;'
-    })[m];
-  });
-}
-
 function cargarNoticias() {
   const raw = localStorage.getItem(NEWS_KEY);
   return raw ? JSON.parse(raw) : [];
@@ -313,12 +300,6 @@ btnLogin.addEventListener("click", function () {
     });
 });
 
-/*
- * Pedir datos del usuario logueado (endpoint protegido)
- * Mandamos el token en el header "Authorization" para
- * demostrarle a la API que estamos logueados.
- * 
-*/
 function obtenerDatosDelUsuario(token) {
   fetch("https://dummyjson.com/auth/me", {
     method: "GET",
@@ -363,3 +344,16 @@ function cerrarSesion() {
 //  cerrar sesion
 btnSalir.addEventListener("click", cerrarSesion);
 salir.addEventListener("click", cerrarSesion);
+
+// Función para actualizar el texto del enlace de login en index.html
+function actualizarEnlaceLogin() {
+  const enlaceLogin = document.getElementById("enlace-login");
+  if (!enlaceLogin) return;
+  
+  const tokenGuardado = sessionStorage.getItem("token");
+  if (tokenGuardado) {
+    enlaceLogin.textContent = " 👩🏻‍💻Panel de admin";
+  } else {
+    enlaceLogin.textContent = " 👩🏻‍💻Loguearse";
+  }
+}
