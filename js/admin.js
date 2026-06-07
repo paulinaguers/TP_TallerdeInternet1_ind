@@ -1,48 +1,29 @@
-const panel = document.getElementById("panel");
-const nuevoTitulo = document.getElementById("nuevo-titulo");
+const panel = document.getElementById("panel"); //panel para modificar
+
+// elementos para generar vista previa y modificar
+const nuevoTitulo = document.getElementById("nuevo-titulo"); 
 const nuevoTexto = document.getElementById("nuevo-texto");
 const nuevoImagen = document.getElementById("nuevo-imagen");
 const guardar = document.getElementById("guardar");
 
-const tituloNoticia = document.getElementById("titulo-noticia");
-const textoNoticia = document.getElementById("texto-noticia");
 
+// elementos para login
+const mensaje         = document.getElementById("mensaje");
+const zonaLogin      = document.getElementById("zonaLogin");
+const zonaBienvenida = document.getElementById("zonaBienvenida");
+const btnLogin       = document.getElementById("btnLogin");
+const btnSalir       = document.getElementById("btnSalir");
+const inputUsuario   = document.getElementById("usuario");
+const inputPassword  = document.getElementById("password");
 const salir = document.getElementById("salir");
 
 // Variable para rastrear si se está editando una noticia
 let noticiasEnEdicion = -1;
 
-const btnLogin       = document.getElementById("btnLogin");
-const btnSalir       = document.getElementById("btnSalir");
-const inputUsuario   = document.getElementById("usuario");
-const inputPassword  = document.getElementById("password");
-const mensaje        = document.getElementById("mensaje");
-
-const zonaLogin      = document.getElementById("zonaLogin");
-const zonaBienvenida = document.getElementById("zonaBienvenida");
-
-const nombre = document.getElementById("nombre");
-const email  = document.getElementById("email");
-const foto   = document.getElementById("foto");
-
-// Noticias: almacenamiento y render
+// mostrar noticias actuales
 const NEWS_KEY = "noticias";
 const listaNoticiasContainer = document.getElementById("lista-noticias");
 
-
-
-function escapeHtml(str) {
-  if (!str) return "";
-  return str.replace(/[&"'<>]/g, function (m) {
-    return ({
-      '&': '&amp;',
-      '"': '&quot;',
-      "'": '&#39;',
-      '<': '&lt;',
-      '>': '&gt;'
-    })[m];
-  });
-}
 
 function cargarNoticias() {
   const raw = localStorage.getItem(NEWS_KEY);
@@ -55,48 +36,65 @@ function guardarNoticias(noticias) {
 
 function renderNoticias() {
   if (!listaNoticiasContainer) return;
+
   listaNoticiasContainer.innerHTML = "";
-  
+
   const noticias = cargarNoticias();
-  
+
   if (noticias.length === 0) {
-    listaNoticiasContainer.innerHTML = '<p>No hay noticias aún.</p>';
+    listaNoticiasContainer.innerHTML = "<p>No hay noticias aún.</p>";
     return;
   }
-  
-  noticias.forEach(function(n, index){
+
+  noticias.forEach(function (n, index) {
     const item = document.createElement("div");
     item.className = "noticia-item";
-    
-    const descripcion = n.descripcion || n.texto || "";
-    const imagenHtml = n.imagen ? `<img src="${escapeHtml(n.imagen)}" alt="" style="max-width:150px;display:block;margin-bottom:6px;">` : "";
-    
-    // Todas las noticias pueden editarse/borrarse
-    item.innerHTML = `
-      ${imagenHtml}
-      <h3>${escapeHtml(n.titulo)}</h3>
-      <p>${escapeHtml(descripcion)}</p>
-      <div class="noticia-meta">${n.fecha ? new Date(n.fecha).toLocaleString() : 'Sin fecha'}</div>
-      <div class="noticia-acciones">
-        <button class="editar-noticia" data-index="${index}">Editar</button>
-        <button class="borrar-noticia" data-index="${index}">Borrar</button>
-      </div>
-    `;
+
+    const descripcion = n.descripcion || "";
+
+    // Imagen (opcional)
+    if (n.imagen) {
+      const img = document.createElement("img");
+      img.src = n.imagen;
+      img.style.maxWidth = "150px";
+      img.style.display = "block";
+      img.style.marginBottom = "6px";
+      item.appendChild(img);
+    }
+
+    // Título
+    const titulo = document.createElement("h3");
+    titulo.textContent = n.titulo;
+
+    // Texto
+    const texto = document.createElement("p");
+    texto.textContent = descripcion;
+
+    // Botones
+    const acciones = document.createElement("div");
+    acciones.className = "noticia-acciones";
+
+    const btnEditar = document.createElement("button");
+    btnEditar.textContent = "Editar";
+    btnEditar.addEventListener("click", function () {
+      editarNoticia(index);
+    });
+
+    const btnBorrar = document.createElement("button");
+    btnBorrar.textContent = "Borrar";
+    btnBorrar.addEventListener("click", function () {
+      borrarNoticia(index);
+    });
+
+    acciones.appendChild(btnEditar);
+    acciones.appendChild(btnBorrar);
+
+    // Armar todo
+    item.appendChild(titulo);
+    item.appendChild(texto);
+    item.appendChild(acciones);
+
     listaNoticiasContainer.appendChild(item);
-  });
-  
-  listaNoticiasContainer.querySelectorAll('.editar-noticia').forEach(btn => {
-    btn.addEventListener('click', function(){
-      const idx = parseInt(this.dataset.index, 10);
-      editarNoticia(idx);
-    });
-  });
-  
-  listaNoticiasContainer.querySelectorAll('.borrar-noticia').forEach(btn => {
-    btn.addEventListener('click', function(){
-      const idx = parseInt(this.dataset.index, 10);
-      borrarNoticia(idx);
-    });
   });
 }
 
@@ -116,13 +114,10 @@ function agregarNoticia() {
       noticias[noticiasEnEdicion] = { 
         titulo, 
         descripcion: texto, 
-        imagen: imagen, 
-        fecha: noticias[noticiasEnEdicion].fecha 
+        imagen: imagen
       };
       guardarNoticias(noticias);
       renderNoticias();
-      tituloNoticia.textContent = titulo;
-      textoNoticia.textContent = texto;
       nuevoTitulo.value = "";
       nuevoTexto.value = "";
       if (nuevoImagen) nuevoImagen.value = "";
@@ -133,11 +128,9 @@ function agregarNoticia() {
     }
   } else {
     // Modo agregar: crear noticia nueva
-    noticias.unshift({ titulo, descripcion: texto, imagen: imagen, fecha: new Date().toISOString() });
+    noticias.unshift({ titulo, descripcion: texto, imagen: imagen });
     guardarNoticias(noticias);
     renderNoticias();
-    tituloNoticia.textContent = titulo;
-    textoNoticia.textContent = texto;
     nuevoTitulo.value = "";
     nuevoTexto.value = "";
     if (nuevoImagen) nuevoImagen.value = "";
@@ -161,10 +154,7 @@ function editarNoticia(index) {
   // Mostrar botón cancelar
   const btnCancelar = document.getElementById('cancelar-edicion');
   if (btnCancelar) btnCancelar.style.display = "inline-block";
-  
-  tituloNoticia.textContent = n.titulo;
-  textoNoticia.textContent = n.descripcion || n.texto || "";
-  
+
   // Scroll al formulario para que vea los cambios
   document.querySelector('.form-agregar').scrollIntoView({ behavior: 'smooth' });
 }
@@ -176,9 +166,6 @@ function cancelarEdicion() {
   
   noticiasEnEdicion = -1;
   guardar.textContent = "Agregar noticia";
-  
-  tituloNoticia.textContent = "Título de la noticia";
-  textoNoticia.textContent = "Texto de la noticia";
   
   // Ocultar botón cancelar
   const btnCancelar = document.getElementById('cancelar-edicion');
@@ -222,16 +209,9 @@ if (btnVerMain) {
 // Inicializar localStorage con noticias hardcodeadas si está vacío (se ejecuta apenas carga el script)
 function inicializarNoticiasGuardadas() {
   const noticiasGuardadas = localStorage.getItem(NEWS_KEY);
+
   if (!noticiasGuardadas || noticiasGuardadas === '[]') {
-    // Copiar noticias hardcodeadas a localStorage para que se puedan editar/borrar
-    const noticiasConFecha = noticiasHardcodeadas.map(n => ({
-      ...n,
-      fecha: new Date().toISOString()
-    }));
-    guardarNoticias(noticiasConFecha);
-    console.log('Noticias inicializadas en localStorage:', noticiasConFecha.length);
-  } else {
-    console.log('Noticias ya existen en localStorage');
+    guardarNoticias([]); // arranca vacío
   }
 }
 
@@ -272,7 +252,6 @@ btnLogin.addEventListener("click", function () {
       return respuesta.json();
     })
     .then(function (data) {
-      console.log("Respuesta del login:", data);
       sessionStorage.setItem("token", data.accessToken);  // guardar al navegador en session
       mostrarBienvenida(data);
     })
@@ -303,15 +282,11 @@ function obtenerDatosDelUsuario(token) {
     });
 }
 
+// cambia la vista de login a panel de admin
 function mostrarBienvenida(data) {
   zonaLogin.hidden      = true;
   zonaBienvenida.hidden = false;
   panel.classList.remove("oculto");
-
-  nombre.textContent = data.firstName + " " + data.lastName;
-  email.textContent  = data.email;
-  foto.src           = data.image;
-  mensaje.textContent = "";
 }
 
 function cerrarSesion() {
@@ -319,22 +294,8 @@ function cerrarSesion() {
   zonaLogin.hidden      = false;
   zonaBienvenida.hidden = true;
   panel.classList.add("oculto");
-  mensaje.textContent   = "";
 }
 
 //  cerrar sesion
 btnSalir.addEventListener("click", cerrarSesion);
 salir.addEventListener("click", cerrarSesion);
-
-// Función para actualizar el texto del enlace de login en index.html
-function actualizarEnlaceLogin() {
-  const enlaceLogin = document.getElementById("enlace-login");
-  if (!enlaceLogin) return;
-  
-  const tokenGuardado = sessionStorage.getItem("token");
-  if (tokenGuardado) {
-    enlaceLogin.textContent = " 👩🏻‍💻Panel de admin";
-  } else {
-    enlaceLogin.textContent = " 👩🏻‍💻Loguearse";
-  }
-}
