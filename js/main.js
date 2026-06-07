@@ -116,9 +116,14 @@ window.addEventListener('load', function() {
     const enlaceLogin = document.getElementById("enlace-login");
     if (enlaceLogin) {
         if (tokenGuardado) {
-            enlaceLogin.textContent = " 👩🏻‍💻Panel de admin";
-        } else {
-            enlaceLogin.textContent = " 👩🏻‍💻Loguearse";
-        }
-    }
+    const usuario = JSON.parse(sessionStorage.getItem("usuario"));
+
+    if (usuario) {
+        enlaceLogin.innerHTML = `
+            <img src="${usuario.image}" style="width:30px;height:30px;border-radius:50%;vertical-align:middle;">
+            ${usuario.firstName}•(Panel de admin)
+        `;
+    } else {
+        enlaceLogin.textContent = "👩🏻‍💻Loguearse";
+    }}}
 });
