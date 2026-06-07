@@ -41,7 +41,6 @@ Este proyecto utiliza la API externa DummyJSON para la autenticación.
 * Agregar nuevas noticias
 * Editar noticias existentes
 * Eliminar noticias
-* Vista previa antes de publicar
 * Ver datos del usuario logueado
 * Cerrar sesión
 
