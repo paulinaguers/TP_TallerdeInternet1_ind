@@ -83,3 +83,52 @@ footer {
     padding: 1rem 0;
     margin-top: 2rem;
 }
+
+/*MEDIA QUERY PARA DISPOSITIVOS MÓVILES*/
+@media (max-width: 768px) {
+    /* 1. Reacomodar los elementos dentro del Header */
+    .header-principal {
+        flex-direction: column !important; /* Apila logo, buscador y login verticalmente */
+        gap: 15px !important;
+        padding: 1.5rem 1rem !important;
+        height: auto !important;
+        text-align: center !important;
+    }
+
+    #imagen_logo {
+        margin-right: auto !important;
+        margin-left: auto !important; /* Centra el logo en la pantalla */
+    }
+
+    .contenedor-buscador input {
+        width: 100% !important;
+        max-width: 300px !important; /* Hace que el buscador no se deforme */
+    }
+
+    .menu {
+        margin-top: 5px !important;
+    }
+
+    /* 2. Cambiar el contenedor principal de Flex horizontal a Flex vertical inverso */
+    #contenedor-principal {
+        display: flex !important;
+        flex-direction: column-reverse !important; /* Invierte el orden del HTML y manda el aside arriba */
+        gap: 1.5rem !important;
+        padding: 1rem !important;
+    }
+
+    /* 3. Forzar al Aside del Dólar a que se acomode arriba prolijo */
+    .aside-dolar {
+        position: relative !important; /* Le quita el modo "sticky" o fijo para que pueda subir */
+        top: auto !important;
+        width: 100% !important;        /* Ocupa todo el ancho en celulares */
+        box-shadow: none !important;
+        border: 1px solid #dee2e6 !important;
+    }
+
+    /* 4. Asegurar que las noticias ocupen todo el ancho abajo */
+    #contenedor-noticias {
+        width: 100% !important;
+        grid-template-columns: 1fr !important; /* Las tarjetas se ponen en una sola fila vertical */
+    }
+}
