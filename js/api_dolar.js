@@ -42,37 +42,45 @@ function mostrarCotizacion(datos, titulo, fechaConsulta = null) {
         <p class="fecha-consulta"> Consulta: ${fechaMostrada || "última disponible"}</p>
     `;
 }
-// FUNCIÓN PARA OBTENER COTIZACIÓN POR FECHA (versión histórica)
+// FUNCIÓN PARA OBTENER COTIZACIÓN POR FECHA (versión histórica con Delay de 1 segundos)
 function obtenerCotizacionPorFecha(fecha) {
-    resultado.innerHTML = "<p> Cargando cotización⏳...</p>";
+    resultado.innerHTML = "<p> Cargando cotización⏳...</p>"; // Muestra el cartel inmediatamente
     
-    fetch(`https://api.bluelytics.com.ar/v2/historical?day=${fecha}`)
-        .then(response => response.json())
-        .then(data => {
-            // Verificar si llegaron datos válidos
-            if (data.blue && data.oficial) {
-                mostrarCotizacion(data, `Cotización del ${formatearFechaDDMMAAAA(fecha)}`, fecha);
-            } else {
-                resultado.innerHTML = "<p> No hay datos disponibles para esta fecha. Probá con otra fecha (ej: 2026-05-15).</p>";
-            }
-        })
-        .catch(error => {
-            console.error("Error al consultar la API:", error);
-            resultado.innerHTML = "<p> Error al cargar la cotización. Verificá tu conexión o probá otra fecha.</p>";
-        });
+    // Ponemos un temporizador (setTimeout) para pausar la ejecución 1 segundo y que se note el "Cargando..."
+    setTimeout(() => {
+        fetch(`https://api.bluelytics.com.ar/v2/historical?day=${fecha}`)
+            .then(response => response.json())
+            .then(data => {
+                // Verificar si llegaron datos válidos
+                if (data.blue && data.oficial) {
+                    mostrarCotizacion(data, `Cotización del ${formatearFechaDDMMAAAA(fecha)}`, fecha);
+                } else {
+                    resultado.innerHTML = "<p> No hay datos disponibles para esta fecha. Probá con otra fecha (ej: 2026-05-15).</p>";
+                }
+            })
+            .catch(error => {
+                console.error("Error al consultar la API:", error);
+                resultado.innerHTML = "<p> Error al cargar la cotización. Verificá tu conexión o probá otra fecha.</p>";
+            });
+    }, 1000); // <-- 1000 milisegundos 
 }
 
-// FUNCIÓN PARA OBTENER LA ÚLTIMA COTIZACIÓN 
+// FUNCIÓN PARA OBTENER LA ÚLTIMA COTIZACIÓN (Con Delay de 1 segundo al cargar la página)
 function obtenerUltimaCotizacion() {
-    fetch('https://api.bluelytics.com.ar/v2/latest')
-        .then(response => response.json())
-        .then(data => {
-            mostrarCotizacion(data, '📈 Última cotización del dólar');
-        })
-        .catch(error => {
-            console.error("Error:", error);
-            resultado.innerHTML = "<p> Error al cargar la cotización actual.</p>";
-        });
+    resultado.innerHTML = "<p> Cargando cotización⏳...</p>"; // Asegura que empiece diciendo cargando antes del fetch
+    
+    // Ponemos el mismo temporizador de 1 segundo para simular la carga al entrar a la web
+    setTimeout(() => {
+        fetch('https://api.bluelytics.com.ar/v2/latest')
+            .then(response => response.json())
+            .then(data => {
+                mostrarCotizacion(data, '📈 Última cotización del dólar');
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                resultado.innerHTML = "<p> Error al cargar la cotización actual.</p>";
+            });
+    }, 1000); // <-- 1 segundo de espera para que el usuario vea el emoji del reloj de arena
 }
 
 // ESCUCHAR EL ENVÍO DEL FORMULARIO
