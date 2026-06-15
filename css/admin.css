@@ -1,3 +1,6 @@
+/* ========================================================
+   1. ESTILOS GENERALES
+   ======================================================== */
 body {
   margin: 0;
   font-family: 'Segoe UI', system-ui, sans-serif;
@@ -6,17 +9,21 @@ body {
   line-height: 1.5;
 }
 
-.contenedor {
+main.contenedor {
   min-height: 100vh;
   display: flex;
-  justify-content: center;
   flex-direction: column;
-  align-items: center;
   padding: 2rem 1rem;
   box-sizing: border-box;
-  gap: 20px;
+  gap: 40px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
+/* ========================================================
+   2. TARJETAS DE FORMULARIOS Y LOGIN (ANCHO DE 480PX)
+   ======================================================== */
 .tarjeta {
   width: 100%;
   max-width: 480px;
@@ -26,6 +33,7 @@ body {
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 0 50px rgba(59, 130, 246, 0.03);
   border: 1px solid rgba(59, 130, 246, 0.15);
   box-sizing: border-box;
+  margin: 0 auto; /* Las mantiene siempre centradas en pantalla */
 }
 
 .tarjeta h1 {
@@ -87,6 +95,10 @@ button:hover {
   box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
 }
 
+.oculto {
+  display: none;
+}
+
 #mensaje-error {
   color: #ef4444;
   font-size: 0.9rem;
@@ -94,82 +106,152 @@ button:hover {
   text-align: center;
 }
 
-.oculto {
-  display: none;
+/* ========================================================
+   3. PANEL DE NOTICIAS EN CUADRÍCULA (GRID LIBRE)
+   ======================================================== */
+.seccion-lista-noticias {
+  width: 100%;
+  margin-top: 20px;
 }
 
-#salir {
-  background: #27272a;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  box-shadow: none;
+.titulo-existentes {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-align: left;
 }
 
-#salir:hover {
-  background: #ef4444;
-  
-  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.3);
-}
-
-/* 
-   Estilos para noticias ya existentes y evitar que se desordenen
-   */
-
-/* 1. Contenedor de la lista de noticias existentes */
+/* El Grid ahora sí ocupa todo el ancho disponible del main contenedor */
 #lista-noticias {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Tarjeta de cada noticia individual generada por JS */
+#lista-noticias .noticia-item {
+  background-color: #111115;
+  border: 1px solid rgba(59, 130, 246, 0.15);
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  margin-top: 15px;
+  box-sizing: border-box;
 }
 
-/* 2. Cada bloque de noticia debe actuar como tarjeta ordenada */
-#lista-noticias .noticia-card, 
-#lista-noticias div {
-  background-color: #1c1c21;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+/* Control de imágenes en el grid */
+#lista-noticias .noticia-item img {
+  width: 100%;
+  max-width: 100%;
+  height: 170px;
+  object-fit: cover;
   border-radius: 12px;
-  padding: 20px;
+  margin-bottom: 16px;
+}
+
+#lista-noticias .noticia-item h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 0 0 10px 0;
+  color: #ffffff;
+  line-height: 1.4;
+}
+
+#lista-noticias .noticia-item p {
+  font-size: 0.9rem;
+  color: #9ca3af;
+  margin: 0 0 20px 0;
+  line-height: 1.5;
+  flex-grow: 1; /* Empuja las acciones al fondo de la card */
+}
+
+/* Contenedor de botones de acciones */
+#lista-noticias .noticia-acciones {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  margin-top: auto; 
+}
+
+#lista-noticias .noticia-acciones button {
+  width: 100%;
+  margin-top: 0;
+  padding: 12px;
+  font-size: 14px;
+  border-radius: 10px;
+}
+
+/* ========================================================
+   4. BARRA DE ACCIONES FLOTANTE
+   ======================================================== */
+.barra-flotante-acciones {
+  position: fixed;
+  top: 40px;
+  right: 40px;
   display: flex;
   flex-direction: column;
   gap: 12px;
+  z-index: 1000;
 }
 
-/* 3. ARREGLO DE LA IMAGEN: forazar a que tenga un tamaño controlado y no flote */
-#lista-noticias img {
-  width: 150%;
-  height: 160px;
-  object-fit: cover; /* Corta la imagen proporcionalmente para que no se deforme */
-  border-radius: 8px;
-  display: block;
-}
-
-/* 4. Títulos y descripciones dentro de la lista */
-#lista-noticias h2, 
-#lista-noticias h3 {
-  font-size: 1.1rem;
-  margin: 0;
-  color: #ffffff;
-}
-
-#lista-noticias p {
-  font-size: 0.9rem;
-  color: #9ca3af;
-  margin: 0;
-}
-
-/* 5. ARREGLO DE LOS BOTONES: Evitar que hereden el width: 100% caótico */
-#lista-noticias button {
-  width: auto;         /* Deja de ocupar todo el ancho */
-  flex: 1;             /* Si están en paralelo, ocupan mitad y mitad */
-  margin-top: 0;       /* Eliminamos el margen de 24px que los separaba bruscamente */
-  padding: 10px;
-  font-size: 14px;
-}
-
-/* 6. Si agregás un contenedor para envolver los botones "Editar" y "Borrar" */
-#lista-noticias .acciones-noticia,
-#lista-noticias div > div:last-child {
+.btn-flotante {
   display: flex;
-  gap: 10px;
-  margin-top: 8px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  transition: transform 0.2s, background-color 0.2s;
+  border: none;
+}
+
+.btn-flotante:hover {
+  transform: translateY(-2px);
+}
+
+.btn-flotante.volver {
+  background-color: #1e1e24;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-flotante.salir {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* ========================================================
+   5. RESPONSIVE MÓVILES
+   ======================================================== */
+@media (max-width: 900px) {
+  .barra-flotante-acciones {
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    flex-direction: row;
+    background-color: #111115;
+    padding: 15px;
+    box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
+    border-top: 1px solid rgba(255,255,255,0.1);
+    justify-content: space-around;
+  }
+  .btn-flotante {
+    flex: 1;
+    max-width: 200px;
+    box-shadow: none;
+  }
+  main.contenedor {
+    padding-bottom: 90px;
+  }
 }
