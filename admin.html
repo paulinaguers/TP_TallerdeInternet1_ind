@@ -31,11 +31,12 @@
       <button id="btnSalir">Cerrar sesión</button>
     </section>
 
-    <section id="panel" class="tarjeta oculto">
-      <h1>Panel de administrador</h1>
-      <p>Desde acá podés agregar o eliminar noticias.</p>
-
-      <div class="form-agregar">
+    <section id="panel" class="oculto">
+      
+      <div class="tarjeta form-agregar">
+        <h1>Panel de administrador</h1>
+        <p>Desde acá podés agregar o eliminar noticias.</p>
+        
         <input type="text" id="nuevo-titulo" placeholder="Título de la noticia">
         <input type="text" id="nuevo-imagen" placeholder="URL de la imagen (opcional)">
         <textarea id="nuevo-texto" placeholder="Texto/Descripción de la noticia"></textarea>
@@ -45,16 +46,18 @@
         </div>
       </div>
 
-      <div class="lista-noticias">
-        <h2>Noticias existentes</h2>
-        <div id="lista-noticias">
-        </div>
+      <div class="barra-flotante-acciones">
+        <a href="index.html" class="btn-flotante volver">🏠 Inicio</a>
+        <button id="btnSalir" class="btn-flotante salir">🚪 Cerrar Sesión</button>
       </div>
 
-      <div class="panel-acciones">
-        <button id="ver-main">Ver página principal</button>
-        <button id="salir">Cerrar sesión</button>
+      <div class="seccion-lista-noticias">
+        <h2 class="titulo-existentes">Noticias existentes</h2>
+        <div id="lista-noticias">
+          </div>
       </div>
+
+
     </section>
 
   </main>
