@@ -109,6 +109,12 @@ button:hover {
 /* ========================================================
    3. PANEL DE NOTICIAS EN CUADRÍCULA (GRID LIBRE)
    ======================================================== */
+
+.buscador {
+  margin-bottom: 20px; 
+  width: 100%;
+}
+
 .seccion-lista-noticias {
   width: 100%;
   margin-top: 20px;
