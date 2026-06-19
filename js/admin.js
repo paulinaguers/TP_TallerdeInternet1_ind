@@ -34,33 +34,25 @@ function guardarNoticias(noticias) {
   localStorage.setItem(NEWS_KEY, JSON.stringify(noticias));
 }
 
-// Modificamos el render para que reciba opcionalmente el texto a buscar
-function renderNoticias(textoBuscar = "") {
+function renderNoticias() {
   if (!listaNoticiasContainer) return;
 
   listaNoticiasContainer.innerHTML = "";
 
   const noticias = cargarNoticias();
 
-  // Filtramos el array basándonos en lo que viene del buscador (reutilizando tu lógica de main)
-  const noticiasFiltradas = noticias.filter(function (n) {
-    const tituloMinuscula = n.titulo.toLowerCase();
-    const busquedaMinuscula = textoBuscar.toLowerCase();
-    return tituloMinuscula.includes(busquedaMinuscula);
-  });
-
-  if (noticiasFiltradas.length === 0) {
-    listaNoticiasContainer.innerHTML = "<p>No se encontraron noticias.</p>";
+  if (noticias.length === 0) {
+    listaNoticiasContainer.innerHTML = "<p>No hay noticias aún.</p>";
     return;
   }
 
-  // Dibujamos únicamente las noticias que pasaron el filtro
-  noticiasFiltradas.forEach(function (n, index) {
+  noticias.forEach(function (n, index) {
     const item = document.createElement("div");
     item.className = "noticia-item";
 
     const descripcion = n.descripcion || "";
 
+    // Imagen (opcional)
     if (n.imagen) {
       const img = document.createElement("img");
       img.src = n.imagen;
@@ -70,47 +62,39 @@ function renderNoticias(textoBuscar = "") {
       item.appendChild(img);
     }
 
+    // Título
     const titulo = document.createElement("h3");
     titulo.textContent = n.titulo;
 
+    // Texto
     const texto = document.createElement("p");
     texto.textContent = descripcion;
 
+    // Botones
     const acciones = document.createElement("div");
     acciones.className = "noticia-acciones";
 
     const btnEditar = document.createElement("button");
     btnEditar.textContent = "Editar";
     btnEditar.addEventListener("click", function () {
-      // Buscamos el índice real en el array original para no editar la equivocada al estar filtrado
-      const indexReal = noticias.findIndex(not => not.titulo === n.titulo);
-      editarNoticia(indexReal);
+      editarNoticia(index);
     });
 
     const btnBorrar = document.createElement("button");
     btnBorrar.textContent = "Borrar";
     btnBorrar.addEventListener("click", function () {
-      const indexReal = noticias.findIndex(not => not.titulo === n.titulo);
-      borrarNoticia(indexReal);
+      borrarNoticia(index);
     });
 
     acciones.appendChild(btnEditar);
     acciones.appendChild(btnBorrar);
 
+    // Armar todo
     item.appendChild(titulo);
     item.appendChild(texto);
     item.appendChild(acciones);
 
     listaNoticiasContainer.appendChild(item);
-  });
-}
-
-// CONECTAMOS EL INPUT DE BUSQUEDA EN EL DOM
-const buscadorAdmin = document.getElementById("buscador-admin");
-if (buscadorAdmin) {
-  buscadorAdmin.addEventListener("input", function () {
-    // Cada vez que el usuario escribe una letra, re-renderiza pasando el texto actual
-    renderNoticias(buscadorAdmin.value);
   });
 }
 
@@ -285,8 +269,6 @@ function cerrarSesion() {
   panel.classList.add("oculto");
 }
 
-// Control de cerrar sesión flotante
-const btnSalirFlotante = document.getElementById("btnSalirFlotante");
-if (btnSalirFlotante) {
-  btnSalirFlotante.addEventListener("click", cerrarSesion);
-}
+//  cerrar sesion
+btnSalir.addEventListener("click", cerrarSesion);
+salir.addEventListener("click", cerrarSesion);
