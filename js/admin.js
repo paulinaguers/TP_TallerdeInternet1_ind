@@ -269,6 +269,8 @@ function cerrarSesion() {
   panel.classList.add("oculto");
 }
 
-//  cerrar sesion
-btnSalir.addEventListener("click", cerrarSesion);
-salir.addEventListener("click", cerrarSesion);
+// Control de cerrar sesión flotante
+const btnSalirFlotante = document.getElementById("btnSalirFlotante");
+if (btnSalirFlotante) {
+  btnSalirFlotante.addEventListener("click", cerrarSesion);
+}
