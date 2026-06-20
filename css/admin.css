@@ -106,6 +106,18 @@ button:hover {
   text-align: center;
 }
 
+#salir {
+  background: #27272a;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: none;
+}
+
+#salir:hover {
+  background: #ef4444;
+  
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.3);
+}
+
 /* ========================================================
    3. PANEL DE NOTICIAS EN CUADRÍCULA (GRID LIBRE)
    ======================================================== */
